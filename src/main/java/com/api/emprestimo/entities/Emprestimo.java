@@ -1,89 +1,106 @@
-package com.api.emprestimo.model;
+package com.api.emprestimo.entities;
 
+import com.api.emprestimo.enums.Relacionamento;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "EMPRÉSTIMOS")
+@Table(name = "Empréstimos")
 public class Emprestimo {
 
     //Atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "CPFCliente")
-    private Cliente cpf;
-    @NotNull
-    private BigDecimal ValorInicial;
-    @NotNull
-    private BigDecimal ValorFinal;
-    private LocalDate DataInicial;
-    private LocalDate DataFinal;
+    private String cpf;
+    private BigDecimal valorInicial;
+    private BigDecimal valorFinal;
+    private LocalDate dataInicial;
+    private LocalDate dataFinal;
+    private Relacionamento relacionamento;
+    @JsonIgnore
+    @ManyToOne
+    private Cliente cliente;
 
     //Construtores
-
     public Emprestimo() {
     }
 
-    public Emprestimo(Long id, BigDecimal valorInicial, BigDecimal valorFinal, LocalDate dataInicial, LocalDate dataFinal) {
-        this.id = id;
-        ValorInicial = valorInicial;
-        ValorFinal = valorFinal;
-        DataInicial = dataInicial;
-        DataFinal = dataFinal;
+    //Métodos
+    public Integer numDeEmprestimos() {
+        return cliente.getEmprestimos().size();
     }
 
-//Getters e Setters
+    public void setValorFinal() {
+        this.valorFinal = this.relacionamento.valorMultiplicado(valorInicial, numDeEmprestimos());
+    }
 
+    //Getters e Setters
     public Long getId() {
         return id;
-    }
-
-    public Cliente getCpf() {
-        return cpf;
-    }
-
-    public BigDecimal getValorInicial() {
-        return ValorInicial;
-    }
-
-    public BigDecimal getValorFinal() {
-        return ValorFinal;
-    }
-
-    public LocalDate getDataInicial() {
-        return DataInicial;
-    }
-
-    public LocalDate getDataFinal() {
-        return DataFinal;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setCpf(Cliente cpf) {
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
+    public BigDecimal getValorInicial() {
+        return valorInicial;
+    }
+
     public void setValorInicial(BigDecimal valorInicial) {
-        ValorInicial = valorInicial;
+        this.valorInicial = valorInicial;
+    }
+
+    public BigDecimal getValorFinal() {
+        return valorFinal;
     }
 
     public void setValorFinal(BigDecimal valorFinal) {
-        ValorFinal = valorFinal;
+        this.valorFinal = valorFinal;
+    }
+
+    public LocalDate getDataInicial() {
+        return dataInicial;
     }
 
     public void setDataInicial(LocalDate dataInicial) {
-        DataInicial = dataInicial;
+        this.dataInicial = dataInicial;
+    }
+
+    public LocalDate getDataFinal() {
+        return dataFinal;
     }
 
     public void setDataFinal(LocalDate dataFinal) {
-        DataFinal = dataFinal;
+        this.dataFinal = dataFinal;
     }
+
+    public Relacionamento getRelacionamento() {
+        return relacionamento;
+    }
+
+    public void setRelacionamento(Relacionamento relacionamento) {
+        this.relacionamento = relacionamento;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
 }

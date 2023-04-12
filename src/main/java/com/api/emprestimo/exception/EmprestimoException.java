@@ -9,8 +9,7 @@ public class EmprestimoException extends Exception {
     private static final long serialVersionUID = 1L;
 
     public EmprestimoException(Long id) {
-        super(String.format("O id %s não foi encontrado.", id));
-
+        super(String.format("O empréstimo de id %s não foi encontrado.", id));
     }
 
 }

@@ -8,13 +8,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface ClienteMapper {
+public interface ApiMapper {
 
-    ClienteMapper INSTANCE = Mappers.getMapper(ClienteMapper.class);
+    ApiMapper INSTANCE = Mappers.getMapper(ApiMapper.class);
 
-    ClienteDTO retornaClienteDTO (Cliente cliente);
-    Cliente retornaCliente (ClienteDTO clienteDTO);
-    EmprestimoDTO retornaEmprestimoDTO (Emprestimo emprestimo);
-    Emprestimo retornaEmprestimo (EmprestimoDTO emprestimoDTO);
+    ClienteDTO toClienteDTO (Cliente cliente);
+    Cliente toCliente (ClienteDTO clienteDTO);
+    EmprestimoDTO toEmprestimoDTO (Emprestimo emprestimo);
+    Emprestimo toEmprestimo (EmprestimoDTO emprestimoDTO);
 
 }

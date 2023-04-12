@@ -1,8 +1,8 @@
-package com.api.emprestimo.model;
+package com.api.emprestimo.entities;
 
 import jakarta.persistence.*;
 
-@Entity
+
 @Embeddable
 public class Endereco {
     @Id
@@ -10,11 +10,14 @@ public class Endereco {
     private Long id;
     private String logradouro;
     private String complemento;
-    private long CEP;
+    private String CEP;
 
     //Construtor
+    public Endereco() {
+    }
 
-    public Endereco(String logradouro, String complemento, long CEP) {
+    public Endereco(Long id, String logradouro, String complemento, String CEP) {
+        this.id = id;
         this.logradouro = logradouro;
         this.complemento = complemento;
         this.CEP = CEP;
@@ -35,7 +38,7 @@ public class Endereco {
         this.complemento = complemento;
     }
 
-    public void setCEP(long CEP) {
+    public void setCEP(String CEP) {
         this.CEP = CEP;
     }
 
@@ -51,7 +54,7 @@ public class Endereco {
         return complemento;
     }
 
-    public long getCEP() {
+    public String getCEP() {
         return CEP;
     }
 }

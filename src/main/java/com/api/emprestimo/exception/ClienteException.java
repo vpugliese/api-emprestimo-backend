@@ -8,9 +8,8 @@ public class ClienteException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    public ClienteException(Long cpf) {
+    public ClienteException(String cpf) {
         super(String.format("O cpf %s não foi encontrado.", cpf));
-
     }
 
 }
