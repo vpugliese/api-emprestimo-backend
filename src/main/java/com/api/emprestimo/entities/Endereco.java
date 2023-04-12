@@ -1,11 +1,13 @@
-package com.api.emprestimo.entities;
+package com.api.emprestimo.model;
 
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 @Entity
 @Embeddable
 public class Endereco {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String logradouro;
     private String complemento;
     private long CEP;
@@ -20,6 +22,11 @@ public class Endereco {
 
     //Getters e Setters
 
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setLogradouro(String logradouro) {
         this.logradouro = logradouro;
     }
@@ -30,6 +37,10 @@ public class Endereco {
 
     public void setCEP(long CEP) {
         this.CEP = CEP;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getLogradouro() {
