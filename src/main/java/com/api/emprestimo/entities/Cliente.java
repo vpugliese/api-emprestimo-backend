@@ -2,7 +2,6 @@ package com.api.emprestimo.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,27 +13,22 @@ public class Cliente {
 
     //Atributos
     @Id
-    @NotNull
-    @Column(unique = true)
     private String cpf;
     @NotBlank(message = "Insira o nome.")
     private String nome;
-    @NotNull
     @Column(unique = true)
-    private Long telefone;
-    @Embedded
-    private List<Endereco> endereco;
-    @NotNull(message = "Insira a rendimento mensal.")
+    private String telefone;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Endereco endereco;
     private BigDecimal rendimentoMensal;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cpf")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cpfCliente")
     private List<Emprestimo> emprestimos;
 
     //Construtores
     public Cliente() {
     }
 
-    public Cliente(String cpf, String nome, Long telefone, List<Endereco> endereco, BigDecimal rendimentoMensal, List<Emprestimo> emprestimos) {
+    public Cliente(String cpf, String nome, String telefone, Endereco endereco, BigDecimal rendimentoMensal, List<Emprestimo> emprestimos) {
         this.cpf = cpf;
         this.nome = nome;
         this.telefone = telefone;
@@ -44,6 +38,7 @@ public class Cliente {
     }
 
     //Métodos
+
     public boolean podeReceberEmprestimo(BigDecimal valorInicial) {
         BigDecimal totalEmprestimos = this.getEmprestimos()
                 .stream()
@@ -73,19 +68,19 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public Long getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(Long telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
-    public List<Endereco> getEndereco() {
+    public Endereco getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(List<Endereco> endereco) {
+    public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
 

@@ -4,6 +4,7 @@ import com.api.emprestimo.entities.Cliente;
 import com.api.emprestimo.exception.ClienteException;
 import com.api.emprestimo.exception.ClienteJaCadastrado;
 import com.api.emprestimo.mapper.ApiMapper;
+import com.api.emprestimo.request.ClienteDTO;
 import com.api.emprestimo.service.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,23 +32,22 @@ public class ClienteController {
     //POST /clientes
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente cadastrarCliente(@Valid @RequestBody Cliente cliente) throws ClienteJaCadastrado {
-        return this.clienteService.cadastrarCliente(cliente);
+    public ClienteDTO cadastrarCliente(@Valid @RequestBody ClienteDTO clienteDto) throws ClienteJaCadastrado {
+        return this.clienteService.cadastrarCliente(clienteDto);
     }
 
     //GET /clientes
     @GetMapping
-    public List<Cliente> listarClientes() {
+    public List<ClienteDTO> listarClientes() {
         return this.clienteService.listarClientes();
     }
 
 
     //GET /clientes/53210216002
     @GetMapping("/{cpf}")
-    public Cliente retornarCliente(@PathVariable String cpf) throws ClienteException {
+    public ClienteDTO retornarCliente(@PathVariable String cpf) throws ClienteException {
         return this.clienteService.retornarCliente(cpf);
     }
-
 
     //DELETE /clientes/53210216002
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -58,7 +58,7 @@ public class ClienteController {
 
     //PUT /clientes/53210216002
     @PutMapping("/{cpf}")
-    public Cliente alterarCliente(@Valid @RequestBody Cliente cliente, @PathVariable String cpf) throws ClienteException {
-        return this.clienteService.alterarCliente(cliente, cpf);
+    public ClienteDTO alterarCliente(@Valid @RequestBody ClienteDTO clienteDto, @PathVariable String cpf) throws ClienteException {
+        return this.clienteService.alterarCliente(clienteDto, cpf);
     }
 }

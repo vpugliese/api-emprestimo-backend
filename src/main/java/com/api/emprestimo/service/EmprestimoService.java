@@ -8,6 +8,7 @@ import com.api.emprestimo.exception.ValorExcedidoException;
 import com.api.emprestimo.mapper.ApiMapper;
 import com.api.emprestimo.repository.ClienteRepository;
 import com.api.emprestimo.repository.EmprestimoRepository;
+import com.api.emprestimo.request.EmprestimoDTO;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,33 +33,38 @@ public class EmprestimoService {
 
 
     @Transactional
-    public Emprestimo cadastrarEmprestimo(@Valid Emprestimo emprestimo) throws ClienteException, ValorExcedidoException {
-        if (clienteRepository.existsById(emprestimo.getCpf())) {
-            Cliente cliente = clienteRepository.findByCpf(emprestimo.getCpf());
-            BigDecimal valorInicial = emprestimo.getValorInicial();
+    public EmprestimoDTO cadastrarEmprestimo(@Valid EmprestimoDTO emprestimoDto, String cpf) throws ClienteException, ValorExcedidoException {
+        if (cpf.equals(emprestimoDto.getCpfCliente()) && clienteRepository.existsById(cpf)) {
+            Cliente cliente = clienteRepository.findByCpf(cpf);
+            BigDecimal valorInicial = emprestimoDto.getValorInicial();
             if (cliente.podeReceberEmprestimo(valorInicial)) {
+                Emprestimo emprestimo = apiMapper.toEmprestimo(emprestimoDto);
                 emprestimo.setCliente(cliente);
                 emprestimo.setValorFinal();
-                return this.emprestimoRepository.save(emprestimo);
-            } throw new ValorExcedidoException(cliente.getCpf());
+                emprestimoRepository.save(emprestimo);
+                return apiMapper.toEmprestimoDTO(emprestimo);
+            } throw new ValorExcedidoException(cpf);
 
-        } throw new ClienteException(emprestimo.getCpf());
+        } throw new ClienteException(cpf);
     }
 
 
-    public List<Emprestimo> listarEmprestimos(String cpf) throws ClienteException {
+    public List<EmprestimoDTO> listarEmprestimos(String cpf) throws ClienteException {
         if (this.clienteRepository.existsById(cpf)) {
             Cliente cliente = clienteRepository.findByCpf(cpf);
-            return cliente.getEmprestimos();
+            return apiMapper.listEmprestimoDTO(cliente.getEmprestimos());
         }
         throw new ClienteException(cpf);
     }
 
-    public Emprestimo consultarEmprestimo(Long id) throws EmprestimoException {
-        if (this.emprestimoRepository.existsById(id)) {
-            return this.emprestimoRepository.findById(id).get();
-        }
-        throw new EmprestimoException(id);
+    public EmprestimoDTO consultarEmprestimo(String cpf, Long id) throws EmprestimoException, ClienteException {
+        if (this.clienteRepository.existsById(cpf)) {
+            if (this.emprestimoRepository.existsById(id)) {
+                Emprestimo emprestimoPorId = emprestimoRepository.findById(id).get();
+                return apiMapper.toEmprestimoDTO(emprestimoPorId);
+            }
+            throw new EmprestimoException(id);
+        } throw new ClienteException(cpf);
     }
 
     @Transactional

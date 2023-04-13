@@ -5,6 +5,7 @@ import com.api.emprestimo.exception.ClienteException;
 import com.api.emprestimo.exception.ClienteJaCadastrado;
 import com.api.emprestimo.mapper.ApiMapper;
 import com.api.emprestimo.repository.ClienteRepository;
+import com.api.emprestimo.request.ClienteDTO;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,27 +27,34 @@ public class ClienteService {
 
 
     @Transactional
-    public Cliente cadastrarCliente(Cliente cliente) throws ClienteJaCadastrado {
-        if (clienteRepository.existsById(cliente.getCpf())) {
-            throw new ClienteJaCadastrado(cliente.getCpf());
+    public ClienteDTO cadastrarCliente(ClienteDTO clienteDto) throws ClienteJaCadastrado {
+        if (clienteRepository.existsById(clienteDto.getCpf())) {
+            throw new ClienteJaCadastrado(clienteDto.getCpf());
         }
-        return this.clienteRepository.save(cliente);
+        Cliente cliente = apiMapper.toCliente(clienteDto);
+        clienteRepository.save(cliente);
+        return apiMapper.toClienteDTO(cliente);
     }
 
-    public List<Cliente> listarClientes() {
-        return this.clienteRepository.findAll();
+    public List<ClienteDTO> listarClientes() {
+        List<Cliente> listaClientes = clienteRepository.findAll();
+        return apiMapper.listClienteDTO(listaClientes);
     }
 
-    public Cliente retornarCliente(String cpf) throws ClienteException {
+    public ClienteDTO retornarCliente(String cpf) throws ClienteException {
         if (this.clienteRepository.existsById(cpf)) {
-            return this.clienteRepository.findById(cpf).get();
+            Cliente cliente = clienteRepository.findById(cpf).get();
+            return apiMapper.toClienteDTO(cliente);
         }
         throw new ClienteException(cpf);
     }
 
-    public Cliente alterarCliente(@Valid Cliente cliente, String cpf) throws ClienteException {
+    public ClienteDTO alterarCliente(@Valid ClienteDTO clienteDto, String cpf) throws ClienteException {
         if (this.clienteRepository.existsById(cpf)) {
-            return this.clienteRepository.save(cliente);
+            Cliente clienteAlterado = this.clienteRepository.findById(cpf).get();
+            clienteAlterado.setCpf(clienteAlterado.getCpf());
+            this.clienteRepository.save(clienteAlterado);
+            return apiMapper.toClienteDTO(clienteAlterado);
         }
         throw new ClienteException(cpf);
     }

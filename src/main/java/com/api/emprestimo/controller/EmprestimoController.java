@@ -7,6 +7,7 @@ import com.api.emprestimo.exception.ValorExcedidoException;
 import com.api.emprestimo.mapper.ApiMapper;
 import com.api.emprestimo.repository.ClienteRepository;
 import com.api.emprestimo.repository.EmprestimoRepository;
+import com.api.emprestimo.request.EmprestimoDTO;
 import com.api.emprestimo.service.ClienteService;
 import com.api.emprestimo.service.EmprestimoService;
 import com.api.emprestimo.service.MensagemSucesso;
@@ -38,19 +39,19 @@ public class EmprestimoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Emprestimo cadastrarEmprestimo(@Valid @RequestBody Emprestimo emprestimo) throws ClienteException, ValorExcedidoException {
-        return this.emprestimoService.cadastrarEmprestimo(emprestimo);
+    public EmprestimoDTO cadastrarEmprestimo(@Valid @RequestBody EmprestimoDTO emprestimoDto, @PathVariable String cpf) throws ClienteException, ValorExcedidoException {
+        return emprestimoService.cadastrarEmprestimo(emprestimoDto, cpf);
     }
 
 
     @GetMapping
-    public List<Emprestimo> listarEmprestimos(@PathVariable String cpf) throws ClienteException {
+    public List<EmprestimoDTO> listarEmprestimos(@PathVariable String cpf) throws ClienteException {
         return this.emprestimoService.listarEmprestimos(cpf);
     }
 
     @GetMapping("/{id}")
-    public Emprestimo consultarEmprestimo(@PathVariable Long id) throws EmprestimoException {
-        return this.emprestimoService.consultarEmprestimo(id);
+    public EmprestimoDTO consultarEmprestimo(@PathVariable String cpf,@PathVariable Long id) throws EmprestimoException, ClienteException {
+        return this.emprestimoService.consultarEmprestimo(cpf, id);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

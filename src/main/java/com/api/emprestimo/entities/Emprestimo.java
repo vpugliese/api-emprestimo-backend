@@ -15,7 +15,7 @@ public class Emprestimo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String cpf;
+    private String cpfCliente;
     private BigDecimal valorInicial;
     private BigDecimal valorFinal;
     private LocalDate dataInicial;
@@ -47,12 +47,12 @@ public class Emprestimo {
         this.id = id;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getCpfCliente() {
+        return cpfCliente;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setCpfCliente(String cpfCliente) {
+        this.cpfCliente = cpfCliente;
     }
 
     public BigDecimal getValorInicial() {

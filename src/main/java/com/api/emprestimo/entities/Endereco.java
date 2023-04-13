@@ -3,24 +3,24 @@ package com.api.emprestimo.entities;
 import jakarta.persistence.*;
 
 
-@Embeddable
+@Entity
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String logradouro;
     private String complemento;
-    private String CEP;
+    private String cep;
 
     //Construtor
     public Endereco() {
     }
 
-    public Endereco(Long id, String logradouro, String complemento, String CEP) {
+    public Endereco(Long id, String logradouro, String complemento, String cep) {
         this.id = id;
         this.logradouro = logradouro;
         this.complemento = complemento;
-        this.CEP = CEP;
+        this.cep = cep;
     }
 
     //Getters e Setters
@@ -38,8 +38,8 @@ public class Endereco {
         this.complemento = complemento;
     }
 
-    public void setCEP(String CEP) {
-        this.CEP = CEP;
+    public void setCep(String cep) {
+        this.cep = cep;
     }
 
     public Long getId() {
@@ -54,7 +54,7 @@ public class Endereco {
         return complemento;
     }
 
-    public String getCEP() {
-        return CEP;
+    public String getCep() {
+        return cep;
     }
 }
