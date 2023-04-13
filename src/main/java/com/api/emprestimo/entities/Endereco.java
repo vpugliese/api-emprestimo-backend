@@ -8,7 +8,7 @@ public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String logradouro;
+    private String rua;
     private String complemento;
     private String cep;
 
@@ -16,10 +16,11 @@ public class Endereco {
     public Endereco() {
     }
 
-    public Endereco(Long id, String logradouro, String complemento, String cep) {
+    public Endereco(Long id, String rua, String complemento, String cep) {
         this.id = id;
-        this.logradouro = logradouro;
+        this.rua = rua;
         this.complemento = complemento;
+
         this.cep = cep;
     }
 
@@ -30,8 +31,8 @@ public class Endereco {
         this.id = id;
     }
 
-    public void setLogradouro(String logradouro) {
-        this.logradouro = logradouro;
+    public void setRua(String rua) {
+        this.rua = rua;
     }
 
     public void setComplemento(String complemento) {
@@ -46,8 +47,8 @@ public class Endereco {
         return id;
     }
 
-    public String getLogradouro() {
-        return logradouro;
+    public String getRua() {
+        return rua;
     }
 
     public String getComplemento() {

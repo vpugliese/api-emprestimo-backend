@@ -9,10 +9,10 @@ import com.api.emprestimo.mapper.ApiMapper;
 import com.api.emprestimo.repository.ClienteRepository;
 import com.api.emprestimo.repository.EmprestimoRepository;
 import com.api.emprestimo.request.EmprestimoDTO;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -32,8 +32,7 @@ public class EmprestimoService {
     }
 
 
-    @Transactional
-    public EmprestimoDTO cadastrarEmprestimo(@Valid EmprestimoDTO emprestimoDto, String cpf) throws ClienteException, ValorExcedidoException {
+    public EmprestimoDTO cadastrarEmprestimo(@Valid @RequestBody EmprestimoDTO emprestimoDto, String cpf) throws ClienteException, ValorExcedidoException {
         if (cpf.equals(emprestimoDto.getCpfCliente()) && clienteRepository.existsById(cpf)) {
             Cliente cliente = clienteRepository.findByCpf(cpf);
             BigDecimal valorInicial = emprestimoDto.getValorInicial();
@@ -67,18 +66,13 @@ public class EmprestimoService {
         } throw new ClienteException(cpf);
     }
 
-    @Transactional
-    public MensagemSucesso deletarEmprestimo(Long id, String cpf) throws EmprestimoException, ClienteException {
+
+    public void deletarEmprestimo(Long id, String cpf) throws EmprestimoException, ClienteException {
         if (this.clienteRepository.existsById(cpf)) {
             if (this.emprestimoRepository.existsById(id)) {
                 this.emprestimoRepository.deleteById(id);
-                MensagemSucesso mensagem = new MensagemSucesso();
-                mensagem.setMensagem("Empréstimo deletado com sucesso.");
-                return mensagem;
-            }
-            throw new EmprestimoException(id);
-        }
-        throw new ClienteException(cpf);
+            } else throw new EmprestimoException(id);
+        } else throw new ClienteException(cpf);
     }
 
 

@@ -1,7 +1,6 @@
 package com.api.emprestimo.request;
 
 import com.api.emprestimo.enums.Relacionamento;
-import jakarta.validation.constraints.NotBlank;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -9,15 +8,11 @@ import java.time.LocalDate;
 public class EmprestimoDTO {
 
     private Long id;
-    private String CpfCliente;
-//    @NotBlank
-    private BigDecimal ValorInicial;
-//    @NotBlank
-    private BigDecimal ValorFinal;
-//    @NotBlank
-    private LocalDate DataInicial;
-//    @NotBlank
-    private LocalDate DataFinal;
+    private String cpfCliente;
+    private BigDecimal valorInicial;
+    private BigDecimal valorFinal;
+    private LocalDate dataInicial;
+    private LocalDate dataFinal;
     private Relacionamento relacionamento;
 
     //Construtor
@@ -36,43 +31,43 @@ public class EmprestimoDTO {
     }
 
     public String getCpfCliente() {
-        return CpfCliente;
+        return cpfCliente;
     }
 
     public void setCpfCliente(String cpfCliente) {
-        CpfCliente = cpfCliente;
+        this.cpfCliente = cpfCliente;
     }
 
     public BigDecimal getValorInicial() {
-        return ValorInicial;
+        return valorInicial;
     }
 
     public void setValorInicial(BigDecimal valorInicial) {
-        ValorInicial = valorInicial;
+        this.valorInicial = valorInicial;
     }
 
     public BigDecimal getValorFinal() {
-        return ValorFinal;
+        return valorFinal;
     }
 
     public void setValorFinal(BigDecimal valorFinal) {
-        ValorFinal = valorFinal;
+        this.valorFinal = valorFinal;
     }
 
     public LocalDate getDataInicial() {
-        return DataInicial;
+        return dataInicial;
     }
 
     public void setDataInicial(LocalDate dataInicial) {
-        DataInicial = dataInicial;
+        this.dataInicial = dataInicial;
     }
 
     public LocalDate getDataFinal() {
-        return DataFinal;
+        return dataFinal;
     }
 
     public void setDataFinal(LocalDate dataFinal) {
-        DataFinal = dataFinal;
+        this.dataFinal = dataFinal;
     }
 
     public Relacionamento getRelacionamento() {

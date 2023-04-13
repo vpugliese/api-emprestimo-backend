@@ -3,6 +3,8 @@ package com.api.emprestimo.entities;
 import com.api.emprestimo.enums.Relacionamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,11 +17,16 @@ public class Emprestimo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
     private String cpfCliente;
+    @NotNull
     private BigDecimal valorInicial;
     private BigDecimal valorFinal;
+    @NotNull
     private LocalDate dataInicial;
+    @NotNull
     private LocalDate dataFinal;
+    @NotNull
     private Relacionamento relacionamento;
     @JsonIgnore
     @ManyToOne

@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -26,8 +27,7 @@ public class ClienteService {
     }
 
 
-    @Transactional
-    public ClienteDTO cadastrarCliente(ClienteDTO clienteDto) throws ClienteJaCadastrado {
+    public ClienteDTO cadastrarCliente(@Valid @RequestBody ClienteDTO clienteDto) throws ClienteJaCadastrado {
         if (clienteRepository.existsById(clienteDto.getCpf())) {
             throw new ClienteJaCadastrado(clienteDto.getCpf());
         }
@@ -49,10 +49,11 @@ public class ClienteService {
         throw new ClienteException(cpf);
     }
 
-    public ClienteDTO alterarCliente(@Valid ClienteDTO clienteDto, String cpf) throws ClienteException {
-        if (this.clienteRepository.existsById(cpf)) {
+
+    public ClienteDTO alterarCliente(@Valid @RequestBody ClienteDTO clienteDto, String cpf) throws ClienteException {
+        if (clienteRepository.existsById(cpf)) {
             Cliente clienteAlterado = this.clienteRepository.findById(cpf).get();
-            clienteAlterado.setCpf(clienteAlterado.getCpf());
+            apiMapper.mapAtualizarCliente(clienteDto, clienteAlterado);
             this.clienteRepository.save(clienteAlterado);
             return apiMapper.toClienteDTO(clienteAlterado);
         }
@@ -60,11 +61,11 @@ public class ClienteService {
     }
 
     @Transactional
-    public Cliente deletarCliente(String cpf) throws ClienteException {
+    public void deletarCliente(String cpf) throws ClienteException {
         if (this.clienteRepository.existsById(cpf)) {
             this.clienteRepository.deleteById(cpf);
-        }
-        throw new ClienteException(cpf);
+        } else throw new ClienteException(cpf);
     }
+
 
 }

@@ -1,20 +1,23 @@
 package com.api.emprestimo.request;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import java.math.BigDecimal;
 
 
 public class ClienteDTO {
 
+    @CPF
     private String cpf;
     private String nome;
     private String telefone;
     private BigDecimal rendimentoMensal;
-    private String logradouro;
+    private String rua;
     private String complemento;
     private String cep;
 
 
-    //Construtores
+    //Construtor
 
     public ClienteDTO() {
     }
@@ -54,12 +57,12 @@ public class ClienteDTO {
         this.rendimentoMensal = rendimentoMensal;
     }
 
-    public String getLogradouro() {
-        return logradouro;
+    public String getRua() {
+        return rua;
     }
 
-    public void setLogradouro(String logradouro) {
-        this.logradouro = logradouro;
+    public void setRua(String rua) {
+        this.rua = rua;
     }
 
     public String getComplemento() {

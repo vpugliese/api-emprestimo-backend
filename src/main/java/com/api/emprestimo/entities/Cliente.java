@@ -1,7 +1,9 @@
 package com.api.emprestimo.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,10 +18,12 @@ public class Cliente {
     private String cpf;
     @NotBlank(message = "Insira o nome.")
     private String nome;
-    @Column(unique = true)
+    @NotBlank(message = "Insira um telefone.")
     private String telefone;
     @OneToOne(cascade = CascadeType.ALL)
     private Endereco endereco;
+    @NotNull(message = "Insira o rendimento mensal do cliente.")
+    @Min(1)
     private BigDecimal rendimentoMensal;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cpfCliente")
     private List<Emprestimo> emprestimos;

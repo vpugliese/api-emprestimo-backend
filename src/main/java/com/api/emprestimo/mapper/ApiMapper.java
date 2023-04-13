@@ -7,6 +7,7 @@ import com.api.emprestimo.request.EmprestimoDTO;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface ApiMapper {
 
     //Mapeamento do Cliente e ClienteDTO
 
-    @Mapping(source = "endereco.logradouro", target = "logradouro")
+    @Mapping(source = "endereco.rua", target = "rua")
     @Mapping(source="endereco.complemento", target = "complemento")
     @Mapping(source="endereco.cep", target = "cep")
     ClienteDTO toClienteDTO(Cliente cliente);
@@ -27,6 +28,9 @@ public interface ApiMapper {
     Cliente toCliente(ClienteDTO clienteDTO);
 
     List<ClienteDTO> listClienteDTO(List<Cliente> cliente);
+
+    @InheritInverseConfiguration
+    void mapAtualizarCliente(ClienteDTO clientDto, @MappingTarget Cliente cliente);
 
     //Mapeamento do Empréstimo e EmpréstimoDTO
 
